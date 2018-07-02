@@ -7,7 +7,7 @@ import ballerina/http;
 import ballerina/io;
 
 
-// This service is accessible at port no 9096
+// This service is accessible at port no 9098(You can select any port under your choice)
 
 endpoint http:Listener listener {
     port:9098
