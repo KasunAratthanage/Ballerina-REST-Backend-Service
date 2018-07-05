@@ -73,17 +73,11 @@ service<http:Service> accountMgt bind listener {
         // Send response to the client.
         _ = client->respond(response);
 	}
-
-		
-
+	
     }
-
-	// curl command for POST method
-	// curl -v -X POST -d '{ "Account_Details": { "Bank_Account_No": "12345", "Name": "Kasun","Account_type":"Savings","Branch":"Colombo"}}'
-	// "http://localhost:9091/accountmgt/account" -H "Content-Type:application/json"
-
-
+	
     //-----------------------------------------------GET--------------------------------------------------------------------------------------------
+
 
     // Implemet HTTP GET request for retrive Account Deatils
     // Can access '/account/<accountId> path
@@ -123,10 +117,6 @@ service<http:Service> accountMgt bind listener {
 
 	    }
    }
-
-	//curl command for GET method
-	//curl "http://localhost:9091/accountmgt/account/12345" 
-
 
 //---------------------------------------------------PUT-----------------------------------------------------------------------------------------------
 
@@ -169,15 +159,12 @@ service<http:Service> accountMgt bind listener {
    
 	 }
 
-    	//Curl commands for PUT method 	
-	//curl -X PUT -d '{ "Account_Details": {"Name": "KasunDantha"}}' "http://localhost:9091/accountmgt/account/12345" -H "Content-Type:application/json"
-
 //---------------------------------------------------------DELETE--------------------------------------------------------------------------------------
 
 @http:ResourceConfig {
         methods: ["DELETE"],
         path: "/account/{accountId}"
-    }
+     }
     deleteAccount(endpoint client, http:Request req, string accountId) {
                     
        
@@ -209,8 +196,6 @@ service<http:Service> accountMgt bind listener {
     	
 	}
 
-	//curl command for DELETE
-	//curl -X DELETE "http://localhost:9091/accountmgt/account/12345"
-
+	
 }
 
