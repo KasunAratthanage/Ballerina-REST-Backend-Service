@@ -26,7 +26,7 @@ map<json> bankDetails;
 @http:ServiceConfig { basePath: "/accountmgt" }
 service<http:Service> accountMgt bind listener {
 
-//-----------------------------------------------POST--------------------------------------------------
+//-----------------------------------------------POST---------------------------------------------------------------------------------------
 
 // Implemet HTTP POST request for insert Account Deatils
 // Can access '/account' path to insert account details
@@ -83,7 +83,7 @@ service<http:Service> accountMgt bind listener {
 	// "http://localhost:9091/accountmgt/account" -H "Content-Type:application/json"
 
 
-    //-----------------------------------------------GET--------------------------------------------------------
+    //-----------------------------------------------GET--------------------------------------------------------------------------------------------
 
     // Implemet HTTP GET request for retrive Account Deatils
     // Can access '/account/<accountId> path
@@ -128,7 +128,7 @@ service<http:Service> accountMgt bind listener {
 	//curl "http://localhost:9091/accountmgt/account/12345" 
 
 
-//---------------------------------------------------PUT-------------------------------------------------
+//---------------------------------------------------PUT-----------------------------------------------------------------------------------------------
 
 
 	//Implemet HTTP PUT request for update inserted Account Deatils
@@ -172,7 +172,7 @@ service<http:Service> accountMgt bind listener {
     	//Curl commands for PUT method 	
 	//curl -X PUT -d '{ "Account_Details": {"Name": "KasunDantha"}}' "http://localhost:9091/accountmgt/account/12345" -H "Content-Type:application/json"
 
-//---------------------------------------------------------DELETE-----------------------------------------------
+//---------------------------------------------------------DELETE--------------------------------------------------------------------------------------
 
 @http:ResourceConfig {
         methods: ["DELETE"],
