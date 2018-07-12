@@ -1,2 +1,2 @@
-# Ballerina REST API-Backend-Service : Scenario - Bank Account Management Model
+# Ballerina REST API-Backend-Service : Scenario - Bank Account Management Services
 
