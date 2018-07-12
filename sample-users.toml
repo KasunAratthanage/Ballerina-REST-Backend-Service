@@ -1,0 +1,11 @@
+
+      ["b7a.users"]
+
+      ["b7a.users.admin"]
+      password="pass1"
+      scopes="scope1,scope2"
+
+      ["b7a.users.user"]
+      password="pass2"
+      scopes="scope1"  
+
