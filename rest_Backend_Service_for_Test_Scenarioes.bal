@@ -198,7 +198,7 @@ service<http:Service> accountMgt bind ep {
     //Read file with delay
     @http:ResourceConfig {
         methods: ["GET"],
-        path: "/read",
+        path: "readJSONFile",
         authConfig: {
             scopes: ["scope2"]
         }
@@ -231,7 +231,7 @@ service<http:Service> accountMgt bind ep {
         }
 
         http:Response response;
-        string filePath = "./files/sample.json";
+        string filePath = "./files/test.json";
 
         //Create the byte channel for file path
         io:ByteChannel byteChannel = io:openFile(filePath, io:READ);
@@ -280,7 +280,7 @@ service<http:Service> accountMgt bind ep {
 
     @http:ResourceConfig {
         methods: ["POST"],
-        path: "/account/writeacclogfile",
+        path: "/writeJSONFile",
         authConfig: {
             scopes: ["scope2"]
         }
@@ -332,7 +332,7 @@ service<http:Service> accountMgt bind ep {
             string accountId = Bank_Account_No.toString();
             bankDetails[accountId] = accountReq;
 
-            string filePath = "./files/sample.json";
+            string filePath = "./files/test1.json";
             //Create the byte channel for file path
             io:ByteChannel byteChannel = io:openFile(filePath, io:WRITE);
             //Derive the character channel for the above byte channel
@@ -380,7 +380,7 @@ service<http:Service> accountMgt bind ep {
     //XML to JSON conversion
     @http:ResourceConfig {
         methods: ["GET"],
-        path: "/account/xmltojson",
+        path: "/readxmltojson",
         authConfig: {
             scopes: ["scope2"]
         }
@@ -421,7 +421,7 @@ service<http:Service> accountMgt bind ep {
     //JSON to XML conversion
     @http:ResourceConfig {
         methods: ["GET"],
-        path: "/account/jsontoxml",
+        path: "/readjsontoxml",
         authConfig: {
             scopes: ["scope2"]
         }
@@ -463,4 +463,3 @@ service<http:Service> accountMgt bind ep {
         }
     }
 }
-
