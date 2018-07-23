@@ -239,9 +239,7 @@ service<http:Service> accountMgt bind ep {
         }
 
         http:Response response;
-        io:println(filePath);
-        //var filePath = filepath1;
-
+              
         //Create the byte channel for file path
         io:ByteChannel byteChannel = io:openFile(filePath, io:READ);
         //Derive the character channel for the above byte channel
@@ -249,9 +247,7 @@ service<http:Service> accountMgt bind ep {
 
         match ch.readJson() {
             json result => {
-
                 runtime:sleep(delay);
-
 
                 //Close the charcter channel after reading process
                 ch.close() but {
@@ -271,7 +267,6 @@ service<http:Service> accountMgt bind ep {
 
                 _ = client->respond(response);
                 //characterChannel.close();
-
             }
         }
     }
@@ -344,10 +339,7 @@ service<http:Service> accountMgt bind ep {
                     //throw err;
                 }
                 () => {
-
-
                         runtime:sleep(delay);
-
 
                     //close the charcter channel after writing process
                     ch.close() but {
@@ -361,7 +353,6 @@ service<http:Service> accountMgt bind ep {
                     response.setJsonPayload(payload);
 
                     _ = client->respond(response);
-
                 }
             }
         }
@@ -380,8 +371,7 @@ service<http:Service> accountMgt bind ep {
 
     readBankAccountDetailsXML(endpoint client, http:Request req) {
         http:Response response;
-        //string filePath = "./files/test.xml";
-
+        
         //Create the byte channel for file path
         io:ByteChannel byteChannel = io:openFile(filePath2, io:READ);
         //Derive the character channel for the above byte channel
@@ -404,8 +394,6 @@ service<http:Service> accountMgt bind ep {
                 response.setJsonPayload(payload);
 
                 _ = client->respond(response);
-
-
             }
         }
     }
@@ -421,8 +409,7 @@ service<http:Service> accountMgt bind ep {
 
     readBankAccountDetailsJSON(endpoint client, http:Request req) {
         http:Response response;
-        //string filePath = "./files/test.json";
-
+        
         //Create the byte channel for file path
         io:ByteChannel byteChannel = io:openFile(filePath3, io:READ);
         //Derive the character channel for the above byte channel
