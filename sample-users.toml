@@ -1,4 +1,11 @@
 
+    
+
+      FILEPATH ="./files/test.json"
+      FILEPATH1 ="./files/test1.json"	
+      XMLTOJSON = "./files/test.xml"
+      JSONTOXML = "./files/test.json"
+
       ["b7a.users"]
 
       ["b7a.users.admin"]
@@ -8,4 +15,5 @@
       ["b7a.users.user"]
       password="pass2"
       scopes="scope1"  
+
 
