@@ -1,17 +1,19 @@
-//Scenario - Bank Account Management Bckend Services
-
-//Import Ballerina http library packages
-//Package contains fuctions annotaions and connectores
 import ballerina/http;
 import ballerina/io;
 import ballerina/runtime;
 import ballerina/log;
+import ballerina/config;
 
+//Configured File paths
+string filePath = config:getAsString("FILEPATH");
+string filePath1 = config:getAsString("FILEPATH1");
+string filePath2 = config:getAsString("XMLTOJSON");
+string filePath3 = config:getAsString("JSONTOXML");
 
 //This service is accessible at port
 //Ballerina client can be used to connect to the created HTTPS listener
 endpoint http:SecureListener ep {
-    port: 9098,
+    port: 9094,
 
     //The client needs to provide values for 'trustStoreFile' and 'trustStorePassword'
     secureSocket: {
@@ -56,23 +58,22 @@ service<http:Service> accountMgt bind ep {
     //Create Account
 
     createAccount(endpoint client, http:Request req) {
-
+	http:Response response;
         json accountReq = check req.getJsonPayload();
         json Bank_Account_No = accountReq.Account_Details.Bank_Account_No;
 
         // Check the Bank_Account_No is null or not entered
-        if (Bank_Account_No == null || Bank_Account_No.toString().length() == 0)    {
+        if (Bank_Account_No.toString().length()==0)    {
             json payload = { status: " Please Enter Your Bank Account Number " };
 
-            http:Response response;
             response.setJsonPayload(payload);
-            // Set 204 "No content" response code in the response message.
-            response.statusCode = 204;
-            _ = client->respond(response);
-        } else {
+	        _ = client->respond(response);
+
+
+        } else  {
             string accountId = Bank_Account_No.toString();
             bankDetails[accountId] = accountReq;
-
+        if(accountId.length()==5){
             // Create response message.
             json payload = { status: " Account has been created sucessfully ", Bank_Account_No: accountId };
             http:Response response;
@@ -83,6 +84,14 @@ service<http:Service> accountMgt bind ep {
 
             // Send response to the client.
             _ = client->respond(response);
+        }else{
+            json payload = { status: " Wrong Account length ", Bank_Account_No: accountId };
+            http:Response response;
+
+            response.setJsonPayload(payload);
+            // Send response to the client.
+            _ = client->respond(response);
+            }
         }
     }
 
@@ -158,7 +167,6 @@ service<http:Service> accountMgt bind ep {
         // Send response to the client.
         _ = client->respond(response);
     }
-
     //Delete Account
 
     @http:ResourceConfig {
@@ -172,7 +180,7 @@ service<http:Service> accountMgt bind ep {
     deleteAccount(endpoint client, http:Request req, string accountId) {
 
         http:Response response;
-        //Find the accountId is exists or not 
+        //Find the accountId is exists or not
         if (bankDetails.hasKey(accountId)){
             // Remove the requested account from the memory map.
             _ = bankDetails.remove(accountId);
@@ -231,7 +239,8 @@ service<http:Service> accountMgt bind ep {
         }
 
         http:Response response;
-        string filePath = "./files/test.json";
+        io:println(filePath);
+        //var filePath = filepath1;
 
         //Create the byte channel for file path
         io:ByteChannel byteChannel = io:openFile(filePath, io:READ);
@@ -241,17 +250,8 @@ service<http:Service> accountMgt bind ep {
         match ch.readJson() {
             json result => {
 
-                int j = 0;
-                while (j < 10) {
-                    runtime:sleep(delay);
-                    io:println(j + " Waiting ");
+                runtime:sleep(delay);
 
-                    j = j + 1;
-
-                    if (j == 1) {
-                        break;
-                    }
-                }
 
                 //Close the charcter channel after reading process
                 ch.close() but {
@@ -271,7 +271,7 @@ service<http:Service> accountMgt bind ep {
 
                 _ = client->respond(response);
                 //characterChannel.close();
-                throw err;
+
             }
         }
     }
@@ -332,30 +332,22 @@ service<http:Service> accountMgt bind ep {
             string accountId = Bank_Account_No.toString();
             bankDetails[accountId] = accountReq;
 
-            string filePath = "./files/test1.json";
+            //string filePath = "./files/test1.json";
             //Create the byte channel for file path
-            io:ByteChannel byteChannel = io:openFile(filePath, io:WRITE);
+            io:ByteChannel byteChannel = io:openFile(filePath1, io:WRITE);
             //Derive the character channel for the above byte channel
             io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
 
             match ch.writeJson(accountReq) {
                 error err => {
                     io:println(accountReq);
-                    throw err;
+                    //throw err;
                 }
                 () => {
 
-                    int j = 0;
-                    while (j < 10) {
+
                         runtime:sleep(delay);
-                        io:println(j + " Waiting ");
 
-                        j = j + 1;
-
-                        if (j == 1) {
-                            break;
-                        }
-                    }
 
                     //close the charcter channel after writing process
                     ch.close() but {
@@ -369,7 +361,7 @@ service<http:Service> accountMgt bind ep {
                     response.setJsonPayload(payload);
 
                     _ = client->respond(response);
-                    //io:println("Content written successfully");
+
                 }
             }
         }
@@ -388,10 +380,10 @@ service<http:Service> accountMgt bind ep {
 
     readBankAccountDetailsXML(endpoint client, http:Request req) {
         http:Response response;
-        string filePath = "./files/test.xml";
+        //string filePath = "./files/test.xml";
 
         //Create the byte channel for file path
-        io:ByteChannel byteChannel = io:openFile(filePath, io:READ);
+        io:ByteChannel byteChannel = io:openFile(filePath2, io:READ);
         //Derive the character channel for the above byte channel
         io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
 
@@ -413,7 +405,7 @@ service<http:Service> accountMgt bind ep {
 
                 _ = client->respond(response);
 
-                throw err;
+
             }
         }
     }
@@ -429,10 +421,10 @@ service<http:Service> accountMgt bind ep {
 
     readBankAccountDetailsJSON(endpoint client, http:Request req) {
         http:Response response;
-        string filePath = "./files/test.json";
+        //string filePath = "./files/test.json";
 
         //Create the byte channel for file path
-        io:ByteChannel byteChannel = io:openFile(filePath, io:READ);
+        io:ByteChannel byteChannel = io:openFile(filePath3, io:READ);
         //Derive the character channel for the above byte channel
         io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
 
@@ -449,7 +441,7 @@ service<http:Service> accountMgt bind ep {
                         response.statusCode = 500;
                         response.setPayload(err.message);
                         _ = client->respond(response);
-                        throw err;
+
                     }
                 }
             }
@@ -458,7 +450,7 @@ service<http:Service> accountMgt bind ep {
                 json payload = " XML file cannot read ";
                 response.setJsonPayload(payload);
                 _ = client->respond(response);
-                throw err;
+
             }
         }
     }
