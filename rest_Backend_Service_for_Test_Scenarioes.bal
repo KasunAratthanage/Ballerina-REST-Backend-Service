@@ -7,8 +7,7 @@ import ballerina/config;
 //Configured File paths
 string filePath = config:getAsString("FILEPATH");
 string filePath1 = config:getAsString("FILEPATH1");
-string filePath2 = config:getAsString("XMLTOJSON");
-string filePath3 = config:getAsString("JSONTOXML");
+string filePath4 = config:getAsString("FILEPATH4");
 
 //This service is accessible at port
 //Ballerina client can be used to connect to the created HTTPS listener
@@ -58,39 +57,39 @@ service<http:Service> accountMgt bind ep {
     //Create Account
 
     createAccount(endpoint client, http:Request req) {
-	http:Response response;
+        http:Response response;
         json accountReq = check req.getJsonPayload();
         json Bank_Account_No = accountReq.Account_Details.Bank_Account_No;
 
         // Check the Bank_Account_No is null or not entered
-        if (Bank_Account_No.toString().length()==0)    {
+        if (Bank_Account_No.toString().length() == 0)    {
             json payload = { status: " Please Enter Your Bank Account Number " };
 
             response.setJsonPayload(payload);
-	        _ = client->respond(response);
+            _ = client->respond(response);
 
 
-        } else  {
+        } else {
             string accountId = Bank_Account_No.toString();
             bankDetails[accountId] = accountReq;
-        if(accountId.length()==5){
-            // Create response message.
-            json payload = { status: " Account has been created sucessfully ", Bank_Account_No: accountId };
-            http:Response response;
+            if (accountId.length() == 5){
+                // Create response message.
+                json payload = { status: " Account has been created sucessfully ", Bank_Account_No: accountId };
+                http:Response response;
 
-            // Set 201 "Created new account" response code in the response message.
-            response.statusCode = 201;
-            response.setJsonPayload(payload);
+                // Set 201 "Created new account" response code in the response message.
+                response.statusCode = 201;
+                response.setJsonPayload(payload);
 
-            // Send response to the client.
-            _ = client->respond(response);
-        }else{
-            json payload = { status: " Wrong Account length ", Bank_Account_No: accountId };
-            http:Response response;
+                // Send response to the client.
+                _ = client->respond(response);
+            } else {
+                json payload = { status: " Wrong Account length ", Bank_Account_No: accountId };
+                http:Response response;
 
-            response.setJsonPayload(payload);
-            // Send response to the client.
-            _ = client->respond(response);
+                response.setJsonPayload(payload);
+                // Send response to the client.
+                _ = client->respond(response);
             }
         }
     }
@@ -239,7 +238,7 @@ service<http:Service> accountMgt bind ep {
         }
 
         http:Response response;
-              
+
         //Create the byte channel for file path
         io:ByteChannel byteChannel = io:openFile(filePath, io:READ);
         //Derive the character channel for the above byte channel
@@ -339,7 +338,7 @@ service<http:Service> accountMgt bind ep {
                     //throw err;
                 }
                 () => {
-                        runtime:sleep(delay);
+                    runtime:sleep(delay);
 
                     //close the charcter channel after writing process
                     ch.close() but {
@@ -358,86 +357,175 @@ service<http:Service> accountMgt bind ep {
         }
     }
 
-    // Provide defferent content types service
-
-    //XML to JSON conversion
+    //Content Type Conversion    
+    //XML to JSON conversion service
     @http:ResourceConfig {
-        methods: ["GET"],
-        path: "/readxmltojson",
+        methods: ["POST"],
+        path: "/xmltojson",
         authConfig: {
             scopes: ["scope2"]
         }
     }
 
-    readBankAccountDetailsXML(endpoint client, http:Request req) {
+    xmltojsonconversion(endpoint client, http:Request req) {
         http:Response response;
-        
-        //Create the byte channel for file path
-        io:ByteChannel byteChannel = io:openFile(filePath2, io:READ);
-        //Derive the character channel for the above byte channel
-        io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
+
+        var payload = req.getXmlPayload();
 
         //Read XML file
-        match ch.readXml() {
+        match payload {
             xml result => {
                 json j1 = result.toJSON({});
 
-                io:println(j1);
-                response.setJsonPayload(j1);
+                string x = j1.toString();
+
+                response.setTextPayload(untaint x);
                 _ = client->respond(response);
 
-                io:println(result);
+                //io:println(j1);
             }
             error err => {
                 response.statusCode = 404;
-                json payload = " XML file cannot read ";
-                response.setJsonPayload(payload);
-
+                json payload1 = " XML file cannot read ";
+                response.setJsonPayload(payload1);
                 _ = client->respond(response);
             }
+
         }
     }
 
-    //JSON to XML conversion
+    //JSON to XML conversion service
     @http:ResourceConfig {
-        methods: ["GET"],
-        path: "/readjsontoxml",
+        methods: ["POST"],
+        path: "/jsontoxml",
         authConfig: {
             scopes: ["scope2"]
         }
     }
 
-    readBankAccountDetailsJSON(endpoint client, http:Request req) {
+    conversion(endpoint client, http:Request req) {
         http:Response response;
-        
-        //Create the byte channel for file path
-        io:ByteChannel byteChannel = io:openFile(filePath3, io:READ);
-        //Derive the character channel for the above byte channel
-        io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
-
-        match ch.readJson() {
+        var payload = req.getJsonPayload();
+        match payload {
             json result => {
-                //Read JSON and provide XML
                 var j1 = result.toXML({});
                 match j1 {
                     xml value => {
-                        response.setXmlPayload(value);
+                        response.setXmlPayload(untaint value);
                         _ = client->respond(response);
                     }
-                    error err => {
-                        response.statusCode = 500;
-                        response.setPayload(err.message);
-                        _ = client->respond(response);
-
+                    error => {
+                        response.statusCode = 404;
+                        json payload1 = " Conversion error";
+                        response.setPayload(payload1);
                     }
                 }
+
+            }
+            error => {
+                response.statusCode = 404;
+                json payload1 = " JSON file Error ";
+                response.setJsonPayload(payload1);
+                _ = client->respond(response);
+            }
+        }
+    }
+
+    // API - Subscription Notification
+    @http:ResourceConfig {
+        methods: ["POST"],
+        path: "/notification"
+    }
+
+    getsubscriptionNotification(endpoint client, http:Request req) {
+        http:Response response;
+        //xml payload = check req.getXmlPayload();
+        var payload = req.getXmlPayload();
+
+        //Read XML file
+        match payload {
+            xml result => {
+                json j1 = result.toJSON({});
+                string x = j1.toString();
+                string[] array = x.split(" ");
+
+                int i = 0;
+                string output = "";
+
+                while (i < lengthof array) {
+                    //io:println("  " + array[i]);
+                    output += array[i] + "  \n  ";
+                    i = i + 1;
+                }
+
+                response.setTextPayload(untaint output);
+                _ = client->respond(response);
+                //io:println(output);              
+                //io:println(j1);
             }
             error err => {
                 response.statusCode = 404;
-                json payload = " XML file cannot read ";
-                response.setJsonPayload(payload);
+                json payload1 = " XML file cannot read ";
+                response.setJsonPayload(payload1);
                 _ = client->respond(response);
+            }
+        }
+    }
 
+    //API - Subcription Notification Write into File
+    @http:ResourceConfig {
+        methods: ["POST"],
+        path: "/notificationwritetofile"
+    }
+
+    getsubscriptionandwriteNotification(endpoint client, http:Request req) {
+        http:Response response;
+        //xml payload = check req.getXmlPayload();
+        var payload = req.getXmlPayload();
+
+        //Read XML file
+        match payload {
+            xml result => {
+                json j1 = result.toJSON({});
+                string x = j1.toString();
+
+                string[] array = x.split(" ");
+
+                int i = 0;
+
+                string output = "";
+
+                while (i < lengthof array) {
+                    //io:println("  " + array[i]);
+                    output += array[i] + "  \n  ";
+                    i = i + 1;
+                }
+
+                //string filePath4 = "./files/test.txt";
+                //Create the byte channel for file path
+                io:ByteChannel byteChannel = io:openFile(filePath, io:WRITE);
+                //Derive the character channel for the above byte channel
+                io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
+
+                match ch.writeJson(output) {
+                    error err => {
+                        response.statusCode = 400;
+                        json payload1 = " Error occurred writing character stream ";
+                        response.setJsonPayload(payload1);
+                        _ = client->respond(response);
+
+                    }
+                    () => {
+                        response.setTextPayload("Content written Sucessfully:" + untaint output);
+                        _ = client->respond(response);
+                    } }
+
+            }
+            error err => {
+                response.statusCode = 404;
+                json payload1 = " XML file cannot read ";
+                response.setJsonPayload(payload1);
+                _ = client->respond(response);
             }
         }
     }
