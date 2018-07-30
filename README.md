@@ -1,2 +1,2 @@
-# Ballerina REST API-Backend-Service : Scenario - Bank Account Management Services
+# Ballerina Scenario Test-Backend-Service : Example: Bank Account Management Model
 
