@@ -489,9 +489,7 @@ service<http:Service> accountMgt bind ep {
                 string x = j1.toString();
 
                 string[] array = x.split(" ");
-
                 int i = 0;
-
                 string output = "";
 
                 while (i < lengthof array) {
