@@ -1,2 +1,2 @@
-# Ballerina Scenario Test-Backend-Service : Example: Bank Account Management Model
+# Ballerina Scenario Test-Backend-Services
 
