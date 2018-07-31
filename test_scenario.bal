@@ -312,7 +312,7 @@ service<http:Service> accountMgt bind ep {
         json Bank_Account_No = accountReq.Account_Details.Bank_Account_No;
 
         // Check the Bank_Account_No is null or not entered
-        if (Bank_Account_No == null || Bank_Account_No.toString().length() == 0)    {
+        if (Bank_Account_No.toString().length() == 0)    {
             json payload = { status: " Please Enter Your Bank Account Number " };
             http:Response response;
             response.setJsonPayload(payload);
@@ -326,7 +326,6 @@ service<http:Service> accountMgt bind ep {
             string accountId = Bank_Account_No.toString();
             bankDetails[accountId] = accountReq;
 
-            //string filePath = "./files/test1.json";
             //Create the byte channel for file path
             io:ByteChannel byteChannel = io:openFile(filePath1, io:WRITE);
             //Derive the character channel for the above byte channel
@@ -335,7 +334,7 @@ service<http:Service> accountMgt bind ep {
             match ch.writeJson(accountReq) {
                 error err => {
                     io:println(accountReq);
-                    //throw err;
+                    
                 }
                 () => {
                     runtime:sleep(delay);
