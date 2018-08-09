@@ -1,13 +1,27 @@
 
-    
+      //Gmial connector configurations
 
-       
+      CLIENT_ID="<CLIENT_ID>"
+      CLIENT_SECRET="<CLIENT_SECRET>"
+      REFRESH_TOKEN="<REFRESH_TOKEN>"
+      ACCESS_TOKEN ="<ACCESS_TOKEN>"
+      SENDER="sender@gmail.com"
+      RECIPIENT="receiver@gmail.com"
+      USER_ID="me"
+      SUBJECT= "Email-Subject"
+      MESSAGEBODY="Email Message Body Ballerina gmail package test"
+      CONTENTTYPE="gmail:TEXT_PLAIN"
+      LABELID="<LABELID>"
+      	
+      //File configurations
 
-      FILEPATH ="./files/test.json"
-      FILEPATH1 ="./files/test1.json"	
-      XMLTOJSON = "./files/test.xml"
-      JSONTOXML = "./files/test2.json"
-      FILEPATH4 = "./files/test.txt"
+      XMLTOJSON = "./samplefiles/test.xml"
+      JSONTOXML = "./samplefiles/test2.json"
+      FILEPATH4 = "./samplefiles/test.txt"
+      FILEPATH6 = "./samplefiles/test2.xml"	  
+
+	
+      //Basic Authentication Configurations
 
       ["b7a.users"]
 
@@ -18,7 +32,6 @@
       ["b7a.users.user"]
       password="pass2"
       scopes="scope1"  
-
 
 
 

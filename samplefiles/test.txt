@@ -1,0 +1,22 @@
+{"ns:Event":{"@xmlns:ns":"http://wso2.org/ns/2011/01/event  
+  ing/registry/event","ns:Message":"[APILifeCycle]  
+  The  
+  LifeCycle  
+  State  
+  Changed  
+  from  
+  'Created'  
+  to  
+  'Published'  
+  for  
+  resource  
+  at  
+  /_system/governance/apimgt/applicationdata/provider/admin/TestAPIJmeter1/1.0.0/api.","ns:Timestamp":"2018-07-25T12:35:19.072+0530","ns:Details":{"ns:Session":{"ns:Chroot":"/_system/governance","ns:Username":"admin","ns:TenantId":"-1234"},"ns:Operation":{"ns:Path":"/_system/governance/apimgt/applicationdata/provider/admin/TestAPIJmeter1/1.0.0/api","ns:EventType":"LifeCycleStateChanged","ns:ResourceType":"unknown","ns:LifecycleName":"APILifeCycle","ns:OldLifecycleState":"Created","ns:NewLifecycleState":"Published"},"ns:Server":{"ns:HostName":"10.100.5.8","ns:Product":{"ns:Name":"WSO2  
+  API  
+  Manager","ns:Version":"2.2.0"},"ns:OS":{"ns:Name":"Linux","ns:Version":"4.13.0-45-generic","ns:Architecture":"amd64"},"ns:User":{"ns:Name":"kasun","ns:Country":"US","ns:Language":"en","ns:TimeZone":"Asia/Colombo"},"ns:Java":{"ns:Vendor":"Oracle  
+  Corporation","ns:Version":"1.8.0_171","ns:JVM":{"ns:Name":"Java  
+  HotSpot(TM)  
+  64-Bit  
+  Server  
+  VM","ns:Version":"25.171-b11"}}}}}}  
+  

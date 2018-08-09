@@ -1,0 +1,33 @@
+{
+    "PARTS":
+    {
+        "TITLE":"Computer Parts",
+        "PART":
+        [
+            {
+                "ITEM":"Motherboard",
+                "MANUFACTURER":"ASUS",
+                "MODEL":"P3B-F",
+                "COST":" 123.00"
+            },
+            {
+                "ITEM":"Video Card",
+                "MANUFACTURER":"ATI",
+                "MODEL":"All-in-Wonder Pro",
+                "COST":" 160.00"
+            },
+            {
+                "ITEM":"Sound Card",
+                "MANUFACTURER":"Creative Labs",
+                "MODEL":"Sound Blaster Live",
+                "COST":" 80.00"
+            },
+            {
+                "ITEM":" inch Monitor",
+                "MANUFACTURER":"LG Electronics",
+                "MODEL":" 995",
+                "COST":" 290.00"
+            }
+        ]
+    }
+}

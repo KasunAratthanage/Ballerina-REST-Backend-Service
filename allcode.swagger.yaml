@@ -1,0 +1,298 @@
+openapi: 3.0.1
+info:
+  title: accountMgt
+  version: 1.0.0
+servers:
+- url: https://localhost:9094/banktest
+paths:
+  readJSONFile:
+    get:
+      operationId: readAccountDetailsLogFile
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /createlabel:
+    post:
+      operationId: createmaillabel
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /sendmessage:
+    post:
+      operationId: sendEmailMessage
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /notifyxmlwrite:
+    post:
+      operationId: writenotification
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /account/{accountId}:
+    get:
+      operationId: getBankAccountDetails
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+    put:
+      operationId: updateAccountDetails
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+    delete:
+      operationId: deleteAccount
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /writeJSONFile:
+    post:
+      operationId: writeAccountDetailsLogFile
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /account:
+    post:
+      operationId: createAccount
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /resttestaccount:
+    post:
+      operationId: createAccount test rest servivice
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /viewuserprofile:
+    get:
+      operationId: viewUserEmailProfile
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /resttestaccount/{accountId}:
+    get:
+      operationId: getBankAccountDetails test rest servivice
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+    put:
+      operationId: updateAccountDetails test rest servivice
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+    delete:
+      operationId: deleteAccount test rest servivice
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /xmltojson:
+    post:
+      operationId: xmltojsonconversion
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /listmessages:
+    get:
+      operationId: listEmailMessages1
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  readnotificationxml:
+    get:
+      operationId: readnotification
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /jsontoxml:
+    post:
+      operationId: conversion
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /getlabel:
+    get:
+      operationId: getmaillabel
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /listemailmessages:
+    get:
+      operationId: listEmailMessagesAndRead
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+  /slowbackend:
+    post:
+      operationId: createAccountforslow
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: false
+      responses:
+        200:
+          description: Successful
+          content:
+            application/json:
+              example: Ok
+components:
+  schemas:
+    Request:
+      type: object
