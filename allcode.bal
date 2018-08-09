@@ -5,9 +5,6 @@ import ballerina/log;
 import ballerina/config;
 import wso2/gmail;
 
-//Configured File paths read write operations.
-//string filePath = config:getAsString("FILEPATH");
-//string filePath1 = config:getAsString("FILEPATH1");
 string filePath4 = config:getAsString("FILEPATH4");
 string filePath6 = config:getAsString("FILEPATH6");
 
@@ -52,7 +49,6 @@ endpoint http:SecureListener ep {
             path: "${ballerina.home}/bre/security/ballerinaTruststore.p12",
             password: "ballerina"
         }
-
     }
 };
 
@@ -84,7 +80,7 @@ service<http:Service> accountMgt bind ep {
             scopes: ["scope2"]
         }
     }
-
+    
     //Create bank account using POST method 
     createAccount(endpoint client, http:Request req) {
         http:Response response;
@@ -223,10 +219,10 @@ service<http:Service> accountMgt bind ep {
         http:Request newRequest = new;
         http:Response response;
          
-        //Check whether 'sleeptime' header exisits in the invoking request.
+        //Check whether 'path_for_read' header exisits in the invoking request.
         if (!req.hasHeader("path_for_read")) {
             http:Response errorResponse = new;
-            //If not included 'sleeptime' in header print this as a error message.
+            //If not included 'path_for_read' in header print this as a error message.
             errorResponse.statusCode = 500;
             json errMsg = { "error": "'path_for_read' header is not found" };
             errorResponse.setPayload(errMsg);
@@ -276,10 +272,10 @@ service<http:Service> accountMgt bind ep {
         http:Response response;
         http:Request newRequest = new;
          
-        //Check whether 'sleeptime' header exisits in the invoking request.
+        //Check whether 'path_for_write' header exisits in the invoking request.
         if (!req.hasHeader("path_for_write")) {
             http:Response errorResponse = new;
-            //If not included 'sleeptime' in header print this as a error message.
+            //If not included 'path_for_write' in header print this as a error message.
             errorResponse.statusCode = 500;
             json errMsg = { "error": "'path_for_write' header is not found" };
             errorResponse.setPayload(errMsg);
@@ -490,8 +486,6 @@ service<http:Service> accountMgt bind ep {
         if (existingAccount != null) {
             existingAccount.Account_Details.Bank_Account_No = updatedAccount.Account_Details.Bank_Account_No;
             existingAccount.Account_Details.Name = updatedAccount.Account_Details.Name;
-            existingAccount.Account_Details.Account_type = updatedAccount.Account_Details.Account_type;
-            existingAccount.Account_Details.Branch = updatedAccount.Account_Details.Branch;
             bankDetails[accountId] = existingAccount;
         }
         else {
@@ -638,8 +632,8 @@ service<http:Service> accountMgt bind ep {
             }
         }
     }
-
-
+    
+    //This service read saved subscription notification. 
     @http:ResourceConfig {
         methods: ["GET"],
         path: "readnotificationxml",
