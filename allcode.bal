@@ -21,7 +21,8 @@ string messageBody = config:getAsString("MESSAGEBODY");
 string contentType = config:getAsString("CONTENTTYPE");
 string labelId = config:getAsString("LABELID");
 
-//Credentials for HTTP client config.
+//Credentials for HTTP client config for gmail connector.
+//Gmail uses OAuth 2.0 to authenticate and authorize requests. 
 endpoint gmail:Client gmailEP {
     clientConfig: {
         auth: {
