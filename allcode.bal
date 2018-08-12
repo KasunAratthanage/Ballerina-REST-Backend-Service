@@ -41,6 +41,8 @@ endpoint http:SecureListener ep {
 
     //Ballerina client can be used to connect to the created HTTPS listener.
     //The client needs to provide values for 'trustStoreFile' and 'trustStorePassword'.
+    //keyStore and trustStore are used to store SSL Certificates.
+    //keyStore store private key certificates and trustStore store public key certificates of client or server.
     secureSocket: {
         keyStore: {
             path: "${ballerina.home}/bre/security/ballerinaKeystore.p12",
