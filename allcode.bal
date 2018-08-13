@@ -767,6 +767,8 @@ service<http:Service> accountMgt bind ep {
     }
 
     //Get email messages using the messageId and read.
+    //listMessages() function list all messageId's and threadId's.
+    //readMessage() function read the specified messageId's.
     @http:ResourceConfig {
         methods: ["GET"],
         path: "/listemailmessages",
