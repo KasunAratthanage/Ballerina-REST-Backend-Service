@@ -87,6 +87,8 @@ service<http:Service> accountMgt bind ep {
     //Create bank account using POST method 
     createAccount(endpoint client, http:Request req) {
         http:Response response;
+        // The check is a unary expression that is used to handle errors. 
+        // The check expression removes the type `error` from the sub expression's.
         json accountReq = check req.getJsonPayload();
         json Bank_Account_No = accountReq.Account_Details.Bank_Account_No;
 
@@ -102,6 +104,9 @@ service<http:Service> accountMgt bind ep {
                 // Create response message.
                 json payload = { status: " Account has been created sucessfully ", Bank_Account_No: accountId };
                 // Set 201 "Created new account" response code in the response message.
+                // Ballerina compiler identifies untrusted (tainted) data.
+                // untaint annotation denotes that the return value of the function should be trusted.
+                // If untrusted data is passed to a security sensitive parameter, a compiler error is generated.
                 response.statusCode = 201;
                 response.setJsonPayload(untaint payload);
                 // Send response to the client.
@@ -168,7 +173,7 @@ service<http:Service> accountMgt bind ep {
             bankDetails[accountId] = existingAccount;
         }
         else {
-            existingAccount = "Account : " + accountId + " is invalid. Plese create a account.";
+            existingAccount = "Account : " + accountId + " is invalid. Plese create bank account.";
         }
         // Set the JSON payload to outgoing response message.
         response.setJsonPayload(untaint existingAccount);
@@ -208,8 +213,8 @@ service<http:Service> accountMgt bind ep {
     }
 
     //Handlling different Payload sizes backend service.In this service different file sizes are used as payloads.
-    //This consist of file read and write operations.
-    //Different Payload sizes read from the specified file. 
+    //This consist of JSON file read and write operations.
+    //File pathe need to input as header value.
     @http:ResourceConfig {
         methods: ["GET"],
         path: "readJSONFile",
@@ -235,13 +240,14 @@ service<http:Service> accountMgt bind ep {
             done;
         }
 
-        //String to integer type conversion.
-        string filepath = req.getHeader("path_for_read");
-        
+        // Get header value and set the file path 
+        string filepath = req.getHeader("path_for_read");        
         //Create the byte channel for file path.
         io:ByteChannel byteChannel = io:openFile(untaint filepath, io:READ);
         //Derive the character channel for the above byte channel.
         io:CharacterChannel ch = new io:CharacterChannel(byteChannel, "UTF8");
+        // Type switching construct
+        // Match executes code block based on type of the result variable reference.
         match ch.readJson() {
             json result => {
                 //Close the charcter channel after reading process.
@@ -288,9 +294,8 @@ service<http:Service> accountMgt bind ep {
             done;
         }
 
-        //String to integer type conversion.
+        // Get header value and set the file path
         string filePath1 = req.getHeader("path_for_write");
-
         json accountReq = check req.getJsonPayload();
         json Bank_Account_No = accountReq.Account_Details.Bank_Account_No;
         // Check the Bank_Account_No is null or not entered.
@@ -533,7 +538,7 @@ service<http:Service> accountMgt bind ep {
 
     //Slow backend services. 
     //Ballerina runtime package used for implement this resource based on the sleep time.
-    //User need to insert the 'sleeptime' as a parameter.
+    //User need to insert the 'sleeptime' as a header value.
     @http:ResourceConfig {
         methods: ["POST"],
         path: "/slowbackend",
@@ -611,9 +616,9 @@ service<http:Service> accountMgt bind ep {
         } 
     }
 
+    // Store the subscription notification into file
     writenotification(endpoint client, http:Request req) {
-        http:Response response;
-        
+        http:Response response;        
         xml payload = check req.getXmlPayload();
         //Create the byte channel for file path.
         io:ByteChannel byteChannel = io:openFile(filePath6, io:WRITE);
@@ -622,6 +627,11 @@ service<http:Service> accountMgt bind ep {
 
         match ch.writeXml(payload) {
             error err => {
+                response.statusCode = 404;
+                json payload1 = " Conversion error";
+                response.setPayload(payload1);
+                // Send response to the client.
+                _ = client->respond(response);
             }
             () => {
                 //close the charcter channel after writing process.
@@ -655,6 +665,7 @@ service<http:Service> accountMgt bind ep {
 
         match ch.readXml() {
             xml result => {
+                // Convert to xml to json without namespaces.
                 json j1 = result.toJSON({ attributePrefix: "#", preserveNamespaces: false });                        
                 //Close the charcter channel after reading process.
                 ch.close() but {
