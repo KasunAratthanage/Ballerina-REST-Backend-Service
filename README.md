@@ -18,11 +18,14 @@ Ballerina Distribution
 Text editor or and IDE  
 
 ## Running the tests
+You can run the this service that you developed above, in your local environment. Open your terminal and navigate to service and execute the following command.
 
-**1. Invoking the RESTful service**
+**$ ballerina run --config sample-user.TOML all.bal**
+
+**1. Invoking the RESTful service**</br>
 Important : Let’s see the following curl commands.</br>
 
-**Create Bank Account**
+**Create Bank Account**</br>
 To create a bank account we can use HTTP POST request with all details need to send.</br>
 The service should respond with a 201 Created HTTP response. </br>
 
@@ -37,7 +40,7 @@ Output</br>
 
 {"status":" Account has been created successfully ","Bank_Account_No":"ACC01"}</br>
 
-**Retrieve Bank Account Details**
+**Retrieve Bank Account Details**</br>
 To retrieve bank account details, send an HTTP GET request to the appropriate URL.</br>
 
 Example:</br>
@@ -51,7 +54,7 @@ Output</br>
 
 {"Account_Details":{"Bank_Account_No":"ACC01","Name":"Bob"}}</br>
 
-**Update the Bank Account Details**
+**Update the Bank Account Details**</br>
 To update an existing order, we need to send an HTTP PUT request.</br>
 
 Example: 
@@ -65,7 +68,7 @@ Output</br>
 
 {"Account_Details":{"Bank_Account_No":"ACC01","Name":"Updated Name - Bob_Updated"}}</br>
 
-**Delete Existing Bank Account**
+**Delete Existing Bank Account**</br>
 To delete an existing order, we need to send an HTTP DELETE request.</br>
 
 Example:</br>
@@ -79,11 +82,11 @@ Output</br>
 
 "Account_Details : ACC01 Deleted."</br>
 
-**2.Invoking the secure service**
+**2. Invoking the secure service**
 
 Important : Bellow resources are secured by basic authentication. To invoke these we have to insert valid user names and passwords which are defined in TOML file. Let’s see the following curl commands
 
-**Create Bank Account**
+**Create Bank Account**</br>
 To create a bank account we can use HTTP POST request with all details need to send.The service should respond with a 201 Created HTTP response.</br>
 
 Example:</br>
@@ -97,7 +100,7 @@ Output</br>
 
 {"status":" Account has been created successfully ","Bank_Account_No":"ACC01"}</br>
 
-**Retrieve Bank Account Details**
+**Retrieve Bank Account Details**</br>
 To retrieve bank account details, send an HTTP GET request to the appropriate URL.</br>
 
 Example:</br>
@@ -116,7 +119,7 @@ Output</br>
 
 {"Account_Details":{"Bank_Account_No":"ACC01","Name":"Bob"}}</br>
 
-**Update the Bank Account Details**
+**Update the Bank Account Details**</br>
 To update an existing order, we need to send an HTTP PUT request.</br>
 
 Example: </br>
@@ -143,7 +146,7 @@ Output</br>
 
 {"Account_Details":{"Bank_Account_No":"ACC01","Name":"Updated Name - Bob_Updated"}}</br>
 
-**Delete Existing Bank Account**
+**Delete Existing Bank Account**</br>
 To delete an existing order, we need to send an HTTP DELETE request.</br>
 
 Example:</br>
@@ -157,7 +160,7 @@ Example:</br>
 
 "Account_Details : ACC01 Deleted."</br>
 
-**3. Invoking the Slow Backend Service**
+**3. Invoking the Slow Backend Service**</br>
 Important : We need to send “sleeptime” variable value as a curl header. Let’s see the following curl command.</br>
 
 Create Bank Account</br>
@@ -176,7 +179,7 @@ Output</br>
 
 Based on the sleep time we can test and validate the response. By handling different assertions and different thread counts, different performance levels can be generated. </br>
 
-**4. Invoking the Content type conversion  Service**
+**4. Invoking the Content type conversion  Service**</br>
 Important : We need to send correct “Content-Type” header values.</br>
 
 Example:</br>
@@ -200,7 +203,7 @@ Output</br>
 It will provide the converted XML file content for given JSON.</br>
 <span></span></br>
 
-**5.Invoking the different payload sizes**
+**5. Invoking the different payload sizes**</br>
  Let’s see the following curl commands.</br>
 
 
@@ -214,7 +217,7 @@ Write JSON file in different payload sizes</br>
 Example:</br>
 Curl -vk -X  POST  -d  '<JSON content>’ “ https<span></span>://localhost:9094/banktest/writeJSONFile”  -H "Content-Type:application/xml" -H “<file_path_for_write:File_path>”</br>
  
-**6. Invoking the Event handling backend service** 
+**6. Invoking the Event handling backend service** </br>
 Let’s see the following curl commands.</br>
 
 **Write notification into file**</br>
