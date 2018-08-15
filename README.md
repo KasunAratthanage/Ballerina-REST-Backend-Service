@@ -27,7 +27,7 @@ To create a bank account we can use HTTP POST request with all details need to s
 The service should respond with a 201 Created HTTP response. </br>
 
 Example:</br>
-curl -vk -X POST -d '{"Account_Details": { "Bank_Account_No": "ACC01", "Name": "Bob"}}' "https://localhost:9090/banktest/resttestaccount" -H "Content-Type:application/json"
+curl -vk -X POST -d '{"Account_Details": { "Bank_Account_No": "ACC01", "Name": "Bob"}}' "https<span></span>://localhost:9090/banktest/resttestaccount" -H "Content-Type:application/json"
 
 Output</br>
 < HTTP/1.1 201 Created</br>
