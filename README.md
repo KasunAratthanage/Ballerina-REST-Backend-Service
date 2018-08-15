@@ -230,7 +230,7 @@ Curl -vk -X  POST  -d  '<notification content>’ “ https<span></span>://local
 Example:</br>
 GET https<span></span>://localhost:9090/banktest/readnotificationxml</br>
 
-**7. Invoking the Email verification backend service **</br>
+**7. Invoking the Email verification backend service**</br>
 
 **Read email messages**</br>
 
