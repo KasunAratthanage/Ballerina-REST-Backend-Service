@@ -225,14 +225,14 @@ Let’s see the following curl commands.</br>
 Example:</br>
 Curl -vk -X  POST  -d  '<notification content>’ “ https<span></span>://localhost:9090/banktest/notificationwritetofile”  "Content-Type:application/xml" </br>
 
-**Read notification** </br>
+**Read notification**</br>
 
 Example:</br>
 GET https<span></span>://localhost:9090/banktest/readnotificationxml</br>
 
 **7. Invoking the Email verification backend service **</br>
 
-**Read email messages **</br>
+**Read email messages**</br>
 
 Example: </br>
 GET http<span></span>://localhost:9095/listemailmessages </br>
